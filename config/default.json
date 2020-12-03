@@ -1,0 +1,3 @@
+{
+  "mongoURI": "mongodb+srv://Zedd:ZEDDmongodb12@contactkeeper.e4jt1.mongodb.net/contactkeeperdb?retryWrites=true&w=majority"
+}
