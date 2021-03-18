@@ -7,9 +7,9 @@ const { check, validationResult } = require('express-validator');
 
 const User = require('../models/User');
 
-// @router     POST api/users
-// @desc       Register a user
-// @access     Public
+// @route     POST api/users
+// @desc      Regiter a user
+// @access    Public
 router.post(
 	'/',
 	[
@@ -30,6 +30,7 @@ router.post(
 
 		try {
 			let user = await User.findOne({ email });
+
 			if (user) {
 				return res.status(400).json({ msg: 'User already exists' });
 			}
@@ -41,7 +42,9 @@ router.post(
 			});
 
 			const salt = await bcrypt.genSalt(10);
+
 			user.password = await bcrypt.hash(password, salt);
+
 			await user.save();
 
 			const payload = {
@@ -54,10 +57,10 @@ router.post(
 				payload,
 				config.get('jwtSecret'),
 				{
-					expiresIn: 360000, // usually, this is only 3600 or 1 hour
+					expiresIn: 360000,
 				},
 				(err, token) => {
-					if (err) throw error;
+					if (err) throw err;
 					res.json({ token });
 				}
 			);

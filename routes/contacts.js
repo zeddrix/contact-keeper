@@ -6,9 +6,9 @@ const { check, validationResult } = require('express-validator');
 const User = require('../models/User');
 const Contact = require('../models/Contact');
 
-// @router     GET api/contacts
-// @desc       Get all user contacts
-// @access     Private
+// @route     GET api/contacts
+// @desc      Get all users contacts
+// @access    Private
 router.get('/', auth, async (req, res) => {
 	try {
 		const contacts = await Contact.find({ user: req.user.id }).sort({
@@ -21,9 +21,9 @@ router.get('/', auth, async (req, res) => {
 	}
 });
 
-// @router     POST api/contacts
-// @desc       Add new contact
-// @access     Private
+// @route     POST api/contacts
+// @desc      Add new contact
+// @access    Private
 router.post(
 	'/',
 	[auth, [check('name', 'Name is required').not().isEmpty()]],
@@ -45,6 +45,7 @@ router.post(
 			});
 
 			const contact = await newContact.save();
+
 			res.json(contact);
 		} catch (err) {
 			console.error(err.message);
@@ -53,12 +54,13 @@ router.post(
 	}
 );
 
-// @router     PUT api/contacts/:id
-// @desc       Update contact
-// @access     Private
+// @route     PUT api/contacts/:id
+// @desc      Update contact
+// @access    Private
 router.put('/:id', auth, async (req, res) => {
 	const { name, email, phone, type } = req.body;
 
+	// Build contact object
 	const contactFields = {};
 	if (name) contactFields.name = name;
 	if (email) contactFields.email = email;
@@ -83,14 +85,14 @@ router.put('/:id', auth, async (req, res) => {
 
 		res.json(contact);
 	} catch (err) {
-		console.error(err.message);
+		console.error(er.message);
 		res.status(500).send('Server Error');
 	}
 });
 
-// @router     DELETE api/contacts/:id
-// @desc       Delete contact
-// @access     Private
+// @route     DELETE api/contacts/:id
+// @desc      Delete contact
+// @access    Private
 router.delete('/:id', auth, async (req, res) => {
 	try {
 		let contact = await Contact.findById(req.params.id);

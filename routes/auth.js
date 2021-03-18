@@ -8,9 +8,9 @@ const { check, validationResult } = require('express-validator');
 
 const User = require('../models/User');
 
-// @router     GET api/auth
-// @desc       Get logged in user
-// @access     Private
+// @route     GET api/auth
+// @desc      Get logged in user
+// @access    Private
 router.get('/', auth, async (req, res) => {
 	try {
 		const user = await User.findById(req.user.id).select('-password');
@@ -21,9 +21,9 @@ router.get('/', auth, async (req, res) => {
 	}
 });
 
-// @router     POST api/auth
-// @desc       Auth user and get token
-// @access     Public
+// @route     POST api/auth
+// @desc      Auth user & get token
+// @access    Public
 router.post(
 	'/',
 	[
@@ -42,12 +42,13 @@ router.post(
 			let user = await User.findOne({ email });
 
 			if (!user) {
-				return res.status(400).json({ msg: 'Invalid credentials' });
+				return res.status(400).json({ msg: 'Invalid Credentials' });
 			}
+
 			const isMatch = await bcrypt.compare(password, user.password);
 
 			if (!isMatch) {
-				return res.status(400).json({ msg: 'Invalid credentials' });
+				return res.status(400).json({ msg: 'Invalid Credentials' });
 			}
 
 			const payload = {
@@ -60,10 +61,10 @@ router.post(
 				payload,
 				config.get('jwtSecret'),
 				{
-					expiresIn: 360000, // usually, this is only 3600 or 1 hour
+					expiresIn: 360000,
 				},
 				(err, token) => {
-					if (err) throw error;
+					if (err) throw err;
 					res.json({ token });
 				}
 			);
