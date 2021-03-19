@@ -11,7 +11,7 @@ import {
 	CLEAR_CONTACTS,
 } from '../types';
 
-export default (state, action) => {
+export const contactReducer = (state, action) => {
 	switch (action.type) {
 		case GET_CONTACTS:
 			return {

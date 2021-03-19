@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
 import axios from 'axios';
 import ContactContext from './contactContext';
-import contactReducer from './contactReducer';
+import { contactReducer } from './contactReducer';
 import {
 	GET_CONTACTS,
 	ADD_CONTACT,
